@@ -29,10 +29,7 @@
       <div class="app-product-detail-wrap grid wide">
         <div class="app-product-detail-container row">
           <div class="col l-6 m-6 c-12">
-            <div
-              class="app-product-detail-slide"
-              style="padding: 42.5%; "
-            >
+            <div class="app-product-detail-slide" style="padding: 42.5%">
               <div class="app-product-detail-slide-wrap slideshow-wrap">
                 <img
                   style="width: 588px; height: 500px"
@@ -140,6 +137,39 @@
                 Thêm Vào Giỏ Hàng
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="comment-container">
+      <div class="" style="margin-bottom: 20px"><h1>Bình luận</h1></div>
+      <input
+        v-model="dataComments.comment"
+        v-on:keyup.enter="submitComment"
+        type="text"
+        class="input"
+        v-if="dataComments.userID"
+      />
+      <div class="" v-if="!dataComments.userID" style="position: relative">
+        <div class="aaa" />
+        <p class="ppp">
+          You need
+          <router-link class="next-login" to="/login">Login</router-link>
+          to comment
+        </p>
+      </div>
+      <div class="comments">
+        <div class="comment" v-for="comment in comments" :key="comment.id">
+          <div class="img">
+            <img
+              style="width: 100%; heght: 100%; border-radius: 50%"
+              :src="comment.photoURL"
+              alt=""
+            />
+          </div>
+          <div class="title">
+            <p>{{ comment.userName }}</p>
+            <span>{{ comment.comment }}</span>
           </div>
         </div>
       </div>
@@ -272,15 +302,27 @@
 </template>
 
 <script>
+import { commentsColRef } from "../servies/firebase";
+import { addDoc, getDocs, query, where } from "firebase/firestore";
 export default {
   name: "ProductComponent",
   data() {
     return {
+      comments: [],
+      dataComments: {
+        comment: "",
+        userName: JSON.parse(localStorage.getItem("user")),
+        photoURL: JSON.parse(localStorage.getItem("photoURL")),
+        ProductID: this.$route.params.id,
+        userID: JSON.parse(localStorage.getItem("userID")),
+      },
       id: this.$route.params.id,
       quantity: 1,
     };
   },
   mounted() {
+    this.getComments(this.$route.params.id);
+    this.submitComment(this.$route.params.id);
     window.scrollTo(0, 0);
     this.$store.dispatch("getProduct", this.id);
   },
@@ -293,6 +335,26 @@ export default {
     },
   },
   methods: {
+    async submitComment(e) {
+      if (e.keyCode === 13) {
+        const addedDoc = await addDoc(commentsColRef, this.dataComments);
+        this.dataComments.comment = "";
+        this.getComments();
+        console.log(addedDoc);
+      }
+    },
+    async getComments() {
+      const q = query(
+        commentsColRef,
+        where("ProductID", "==", this.dataComments.ProductID)
+      );
+      const querySnapshot = await getDocs(q);
+      const commentList = [];
+      querySnapshot.forEach((doc) => {
+        commentList.push(doc.data());
+        this.comments = commentList;
+      });
+    },
     removeQuantity() {
       this.quantity--;
     },
@@ -307,4 +369,64 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.comment-container {
+  padding: 10px 60px;
+  width: 80%;
+  margin: 30px auto;
+  height: 500px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.comment {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  margin: 20px 0;
+}
+.input {
+  width: 60%;
+  height: 40px;
+  border-radius: 30px;
+  padding-left: 15px;
+  font-size: 18px;
+}
+.ppp {
+  font-size: 14px;
+}
+.next-login {
+  color: aqua;
+  margin: 0 3px;
+}
+.aaa {
+  width: 60%;
+  margin: 0 auto;
+  height: 40px;
+  border: 1px solid black;
+  border-radius: 30px;
+  padding-left: 15px;
+  font-size: 18px;
+}
+.ppp {
+  position: absolute;
+  top: 0px;
+  left: 22%;
+}
+.img {
+  margin-right: 10px;
+  margin-top: 12px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+p {
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.input:focus {
+  outline: none;
+}
+.comments {
+  height: 350px;
+  overflow-y: auto;
+}
+</style>

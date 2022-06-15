@@ -15,7 +15,9 @@
       <div class="modal-auth__form-content modal-create-content">
         <div class="modal-auth__form-content-wrap">
           <div class="modal-auth__form-content-row" style="position: relative">
-            <label for="CustomerLastName">Họ tên </label>
+            <label for="CustomerLastName"
+              >Họ tên <span class="required">*</span>
+            </label>
             <input
               v-model="fullName"
               type="text"

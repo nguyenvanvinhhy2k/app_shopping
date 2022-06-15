@@ -133,7 +133,7 @@
             </li> -->
             <li
               style="
-                font-size: 18px;
+                font-size: 12px;
                 margin-left: 17px;
                 cursor: pointer;
                 position: relative;
@@ -141,7 +141,7 @@
               class="header-group-btn__list-items"
               v-if="(user = !null)"
             >
-              <p>{{ user }}</p>
+              <p style="width: 127px">{{ user }}</p>
               <ul class="ul">
                 <li class="li">
                   <router-link to="/cart-oder" class="oder"
@@ -383,12 +383,14 @@ export default {
       localStorage.removeItem("user");
       localStorage.removeItem("userId");
       localStorage.removeItem("orderID");
+      localStorage.removeItem("photoURL");
+      localStorage.removeItem("userID");
       this.$store.state.user = null;
       this.$router.push("/login");
     },
     moveCartscrollTo() {
       window.scrollTo(0, 0);
-      this.$route.push("/cart");
+      this.$router.push("/cart");
     },
   },
 };
@@ -399,7 +401,7 @@ export default {
   position: absolute;
   display: none;
   background: antiquewhite;
-  left: -65%;
+  left: -12%;
   width: 150px;
   border: 1px solid var(--border-color);
   box-shadow: 0 5px 20px rgb(0 0 0 / 15%);

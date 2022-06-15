@@ -378,6 +378,7 @@ export default {
                     price: carts[i].product.price,
                     image: carts[i].product.image,
                   };
+                  console.log("res", response.data);
                   localStorage.setItem("orderID", orderDetail.orderID);
                   axios
                     .post(

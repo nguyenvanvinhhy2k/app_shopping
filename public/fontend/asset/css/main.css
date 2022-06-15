@@ -309,6 +309,8 @@
 .modal-auth__form-support {
   font-size: 1.5rem;
   font-weight: 400;
+  display: flex;
+  justify-content: center;
   color: var(--text-light-color);
   margin: 0px;
 }
@@ -2285,7 +2287,7 @@
   padding: 12px 0px;
 }
 .app-cart-content-items {
-  border-top: 2px solid rgba(0, 0, 0, 0.09);;
+  border-top: 2px solid rgba(0, 0, 0, 0.09);
   margin-bottom: 12px;
 }
 .app-cart-content-items-img {

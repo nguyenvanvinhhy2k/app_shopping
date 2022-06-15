@@ -657,7 +657,7 @@ export default {
     },
     moveCartscrollTo() {
       window.scrollTo(0, 0);
-      this.$route.push("/cart");
+      this.$router.push("/cart");
     },
     //  getPage(pageIndex) {
     //   // we simulate an api call that fetch the records from a backend

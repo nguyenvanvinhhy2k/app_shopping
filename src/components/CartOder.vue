@@ -41,7 +41,8 @@
           :class="{ active: isActive ? steps === 2 : '' }"
           @click="steps2()"
         >
-          Chờ lấy hàng<span> (1)</span>
+          Chờ lấy hàng
+          <!-- <span> ({{ productOderId ? total : 0 }}) </span> -->
         </div>
       </span>
       <span @click="oderLoading(2)">
@@ -50,7 +51,7 @@
           :class="{ active: isActive ? steps === 3 : '' }"
           @click="steps3()"
         >
-          Đang giao<span style="right: -23%"> (1)</span>
+          Đang Giao
         </div>
       </span>
       <span @click="oderLoading(3)">
@@ -628,9 +629,9 @@ export default {
     this.oderLoading();
   },
   computed: {
-    // orderDetails() {
-    //   return this.$store.state.orderDetails;
-    // },
+    total() {
+      return this.productOderId.length;
+    },
     orderTotal() {
       let total = 0;
       this.productOderId.forEach(
