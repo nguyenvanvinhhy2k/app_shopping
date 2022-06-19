@@ -19,7 +19,7 @@
             <label for="CustomerEmailLogin"
               >Email <span class="required">*</span></label
             >
-            <input v-model="userName" type="email" />
+            <input v-model="userName" type="email" placeholder=""/>
           </div>
           <div class="modal-auth__form-content-row" style="position: relative">
             <label for="CustomerPasswordLogin"

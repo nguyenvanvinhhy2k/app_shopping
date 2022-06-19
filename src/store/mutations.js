@@ -32,10 +32,11 @@ export const ADD_TO_CART = (state, { product, quantity }) => {
   });
   if (productInCart) {
     productInCart.quantity += quantity;
+    localStorage.setItem("cart", JSON.stringify(state.cart));
     return;
   } else {
     state.cart.push({ product, quantity });
-    window.localStorage.setItem("cart", JSON.stringify(state.cart));
+    localStorage.setItem("cart", JSON.stringify(state.cart));
     console.log(state.cart);
   }
 };

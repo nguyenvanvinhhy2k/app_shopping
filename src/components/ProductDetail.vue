@@ -141,10 +141,25 @@
         </div>
       </div>
     </div>
-    <div class="comment-container">
+    <div class="comment-container" style="position: relative">
       <div class="" style="margin-bottom: 20px"><h1>Bình luận</h1></div>
+      <div class="">
+        <img
+          style="
+            width: 30px;
+            heght: 30px;
+            position: absolute;
+            top: 12.8%;
+            left: 23.5%;
+            border-radius: 50%;
+          "
+          :src="dataComments.photoURL"
+          alt=""
+        />
+      </div>
       <input
         v-model="dataComments.comment"
+        placeholder="Nhập..."
         v-on:keyup.enter="submitComment"
         type="text"
         class="input"
@@ -169,7 +184,12 @@
           </div>
           <div class="title">
             <p>{{ comment.userName }}</p>
-            <span>{{ comment.comment }}</span>
+            <div class="">
+              {{ comment.comment }}
+            </div>
+          </div>
+          <div class="date-time">
+            {{ calculateCreatedTime(comment.create_at) }}
           </div>
         </div>
       </div>
@@ -315,6 +335,7 @@ export default {
         photoURL: JSON.parse(localStorage.getItem("photoURL")),
         ProductID: this.$route.params.id,
         userID: JSON.parse(localStorage.getItem("userID")),
+        create_at: Date.now(),
       },
       id: this.$route.params.id,
       quantity: 1,
@@ -325,6 +346,7 @@ export default {
     this.submitComment(this.$route.params.id);
     window.scrollTo(0, 0);
     this.$store.dispatch("getProduct", this.id);
+    this.calculateCreatedTime();
   },
   computed: {
     productDetail() {
@@ -365,6 +387,26 @@ export default {
       alert("Đã thêm vào giỏ hàng");
       this.$store.dispatch("addToCart", { product, quantity: this.quantity });
     },
+    calculateCreatedTime(value) {
+      let periods = {
+        year: 365 * 30 * 24 * 60 * 60 * 1000,
+        month: 30 * 24 * 60 * 60 * 1000,
+        week: 7 * 24 * 60 * 60 * 1000,
+        day: 24 * 60 * 60 * 1000,
+        hour: 60 * 60 * 1000,
+        minute: 60 * 1000,
+      };
+
+      let diff = Date.now() - value;
+
+      for (const key in periods) {
+        if (diff >= periods[key]) {
+          let result = Math.floor(diff / periods[key]);
+          return `${result} ${result === 1 ? key : key + "s"} ago`;
+        }
+      }
+      return "Just now";
+    },
   },
 };
 </script>
@@ -387,7 +429,7 @@ export default {
   width: 60%;
   height: 40px;
   border-radius: 30px;
-  padding-left: 15px;
+  padding-left: 40px;
   font-size: 18px;
 }
 .ppp {
@@ -428,5 +470,10 @@ p {
 .comments {
   height: 350px;
   overflow-y: auto;
+}
+.date-time {
+  margin-left: 10px;
+  margin-bottom: 20px;
+  font-weight: 100;
 }
 </style>
