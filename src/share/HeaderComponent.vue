@@ -101,7 +101,9 @@
                   @click="isLike = !isLike"
                   class="header-group-btn__list-items-link-icon ti-heart"
                 ></i>
-                <span class="header-group-btn__list-items-like-count">2</span>
+                <span class="header-group-btn__list-items-like-count">{{
+                  countFavouries
+                }}</span>
               </a>
             </li>
             <li class="header-group-btn__list-items">
@@ -269,8 +271,9 @@
       class="content-like"
       style="
         position: fixed;
-        width: 40%;
+        width: 35%;
         top: 12.5%;
+        height: 100vh;
         background: azure;
         z-index: 999;
         right: 0;
@@ -279,37 +282,66 @@
     >
       <div class="modal-like__header">
         <div class="modal-like__header-title">Yêu Thích</div>
-        <div class="modal-like__header-close modal-close">
+        <div
+          class="modal-like__header-close modal-close"
+          @click="getFavouries()"
+        >
           <i class="ti-close" @click="isLike = !isLike"></i>
         </div>
       </div>
       <div class="modal-like__content">
         <div class="modal-like__content-wrap">
-          <ul class="modal-like__list">
-            <li class="modal-like-items">
+          <ul class="modal-like__list" style="height: 460px">
+            <li
+              class="modal-like-items"
+              v-for="favourie in favouries"
+              :key="favourie.id"
+            >
               <div class="modal-like-items-content">
-                <a href="./product-detail.html" class="modal-like-items-link">
+                <a href="" class="modal-like-items-link">
                   <div
                     class="modal-like-items-thumbnail"
                     style="
                       background-image: url('./asset/images/product/IMG_1134.jpg');
                     "
-                  ></div>
+                  >
+                    <img
+                      style="width: 100px; height: 100px"
+                      :src="favourie.image"
+                      alt=""
+                    />
+                  </div>
                 </a>
                 <div class="modal-like-items-description">
                   <a
                     href="./product-detail.html"
                     class="modal-like-items-description-name"
-                    >Mô hình</a
+                    >{{ favourie.name }}</a
                   >
                   <div class="modal-like-items-description-price">
-                    150.000<span>₫</span>
+                    {{
+                      Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(favourie.originalPrice)
+                    }}
                   </div>
-                  <a
-                    href="./product-detail.html"
+                  <router-link
+                    @click="isLike = !isLike"
+                    :to="{
+                      name: 'ProductDetail',
+                      params: { id: favourie.id },
+                    }"
                     class="btn modal-like-items-description-view-detail"
-                    >Chi Tiết</a
+                    >Chi Tiết</router-link
                   >
+                  <div
+                    @click="removeFavouries(favourie.id)"
+                    style="margin-left: 15px"
+                    class="btn modal-like-items-description-view-detail"
+                  >
+                    Xóa
+                  </div>
                 </div>
               </div>
             </li>
@@ -322,12 +354,15 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
+import axios from "axios";
 export default {
   data() {
     return {
       isLike: false,
       isSearch: false,
       search: "",
+      customerId: localStorage.getItem("userId"),
+      favouries: [],
     };
   },
   watch: {
@@ -348,11 +383,16 @@ export default {
   },
   async created() {
     await this.getProducts;
+    await this.getFavouries();
+    await this.removeFavouries();
   },
   mounted() {
     this.$store.dispatch("getCategories");
   },
   computed: {
+    countFavouries() {
+      return this.favouries.length;
+    },
     user() {
       return this.$store.state.user;
     },
@@ -368,6 +408,9 @@ export default {
     products() {
       return this.$store.state.products;
     },
+    // favouries() {
+    //   return this.$store.state.favouries;
+    // },
   },
   methods: {
     ...mapMutations({
@@ -379,13 +422,31 @@ export default {
     moveCategoryId(id) {
       this.$store.dispatch("getCategoryId", id);
     },
+    getFavouries() {
+      axios
+        .get(
+          `https://localhost:44309/api/Customer/GetFavoriteCustomer?customerId=${this.customerId}`
+        )
+        .then((response) => {
+          // commit("SET_FAVOURIES", response.data);
+          this.favouries = response.data;
+          // this.getFavouries();
+        });
+      // this.getFavouries();
+      // this.$router.go();
+    },
+    removeFavouries(id) {
+      axios
+        .post(
+          `https://localhost:44309/api/Customer/DeleteFavoriteProduct?productid=${id}&customeId=${this.customerId}`
+        )
+        .then((repon) => {
+          console.log(repon.data);
+          this.getFavouries();
+        });
+    },
     logout() {
-      // localStorage.removeItem("user");
-      // localStorage.removeItem("userId");
-      // localStorage.removeItem("orderID");
-      // localStorage.removeItem("photoURL");
-      // localStorage.removeItem("userID");
-      localStorage.clear()
+      localStorage.clear();
       this.$store.state.user = null;
       this.$router.push("/login");
     },

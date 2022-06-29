@@ -26,6 +26,9 @@ export const SET_CATEGORIES = (state, categories) => {
   state.categories = categories;
 };
 
+export const SET_FAVOURIES = (state, favourites) => {
+  state.favourites = favourites;
+};
 export const ADD_TO_CART = (state, { product, quantity }) => {
   let productInCart = state.cart.find((item) => {
     return item.product.id === product.id;

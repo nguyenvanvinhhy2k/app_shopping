@@ -6,6 +6,7 @@ export default {
   products: [],
   product: {},
   category: [],
+  favourites: [],
   categories: [],
   productRelation: [],
   categoryRelation: [],

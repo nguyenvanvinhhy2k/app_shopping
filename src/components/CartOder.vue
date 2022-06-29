@@ -232,7 +232,7 @@
                         class="app-cart-content-items-name"
                         style="line-height: 20px"
                       >
-                        <span>{{ i.productName }}</span>
+                        <span>{{ i.name }}</span>
                       </div>
                     </div>
                     <div class="col l-3 m-6 c-12">
@@ -337,7 +337,7 @@
                         class="app-cart-content-items-name"
                         style="line-height: 20px"
                       >
-                        <span>{{ i.productName }}</span>
+                        <span>{{ i.name }}</span>
                       </div>
                     </div>
                     <div class="col l-3 m-6 c-12">
@@ -442,7 +442,7 @@
                         class="app-cart-content-items-name"
                         style="line-height: 20px"
                       >
-                        <span>{{ i.productName }}</span>
+                        <span>{{ i.name }}</span>
                       </div>
                     </div>
                     <div class="col l-3 m-6 c-12">
@@ -547,7 +547,7 @@
                         class="app-cart-content-items-name"
                         style="line-height: 20px"
                       >
-                        <span>{{ i.productName }}</span>
+                        <span>{{ i.name }}</span>
                       </div>
                     </div>
                     <div class="col l-3 m-6 c-12">

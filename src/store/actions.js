@@ -54,6 +54,17 @@ export const addFavoury = ({ productID, userID }) => {
     });
 };
 
+export const getFavouties = ({ commit }, userID) => {
+  axios
+    .post(
+      `https://localhost:44309/api/Customer/GetFavoriteCustomer?customerId=${userID}`
+    )
+    .then((response) => {
+      console.log(response.data);
+      commit("SET_FAVOURIES", response.data);
+    });
+};
+
 export const addToCart = ({ commit }, { product, quantity }) => {
   commit("ADD_TO_CART", { product, quantity });
 };

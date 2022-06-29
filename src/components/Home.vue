@@ -590,7 +590,7 @@
 <script>
 // import {formatPrice} from "../utils"
 // import Pagination from "vue-pagination-2";
-
+import axios from "axios";
 export default {
   name: "MasterSSS",
   // components: { Pagination },
@@ -608,6 +608,7 @@ export default {
       customerId: localStorage.getItem("userId"),
     };
   },
+
   computed: {
     products() {
       return this.$store.state.products;
@@ -628,10 +629,15 @@ export default {
       this.$store.dispatch("addToCart", { product, quantity: this.quantity });
     },
     addFavory(productID) {
-      this.$store.dispatch("addFavoury", {
-        productID,
-        customerId: this.customerId,
-      });
+      axios
+        .post(
+          `https://localhost:44309/api/Customer/FavoriteProduct?productId=${productID}&customeId=${this.customerId}`
+        )
+        .then((response) => {
+          console.log(response.data);
+          alert("Đã thêm vào yêu thích");
+          this.$router.go();
+        });
     },
     addQuantitys() {
       this.quantity++;
