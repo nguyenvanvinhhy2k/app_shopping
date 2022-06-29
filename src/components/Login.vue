@@ -19,7 +19,7 @@
             <label for="CustomerEmailLogin"
               >Email <span class="required">*</span></label
             >
-            <input v-model="userName" type="email" placeholder=""/>
+            <input v-model="userName" type="email" placeholder="" />
           </div>
           <div class="modal-auth__form-content-row" style="position: relative">
             <label for="CustomerPasswordLogin"
@@ -145,11 +145,6 @@ export default {
           this.$store.dispatch("userId", 28);
           this.$router.push("/");
           console.log(respon);
-          axios.post("https://localhost:44309/api/Customer/Registor", {
-            fullName: "Nguyễn Văn Vinh",
-            userName: "nguyenvanvinhhy2k@gmail.com",
-            passWord: "sdasdasdas",
-          });
         })
         .catch((error) => {
           console.log(error);

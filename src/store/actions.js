@@ -44,6 +44,16 @@ export const getOrderDetailId = ({ commit }, id) => {
     });
 };
 
+export const addFavoury = ({ productID, userID }) => {
+  axios
+    .post(
+      `https://localhost:44309/api/Customer/FavoriteProduct?productId=${productID}&customeId=${userID}`
+    )
+    .then((response) => {
+      console.log(response.data);
+    });
+};
+
 export const addToCart = ({ commit }, { product, quantity }) => {
   commit("ADD_TO_CART", { product, quantity });
 };

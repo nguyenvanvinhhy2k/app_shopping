@@ -178,7 +178,10 @@
                       <div
                         class="list-product__like list-product__like--active"
                       >
-                        <div class="list-product__like-icon">
+                        <div
+                          class="list-product__like-icon"
+                          @click="addFavory(product.id)"
+                        >
                           <i class="ti-heart"></i>
                         </div>
                       </div>
@@ -602,6 +605,7 @@ export default {
       quantity: 1,
       pageIndex: 1,
       pageSize: 4,
+      customerId: localStorage.getItem("userId"),
     };
   },
   computed: {
@@ -623,6 +627,12 @@ export default {
       alert("Đã thêm vào giỏ hàng");
       this.$store.dispatch("addToCart", { product, quantity: this.quantity });
     },
+    addFavory(productID) {
+      this.$store.dispatch("addFavoury", {
+        productID,
+        customerId: this.customerId,
+      });
+    },
     addQuantitys() {
       this.quantity++;
     },
@@ -639,7 +649,6 @@ export default {
     },
     showProduct(id) {
       this.productDetail = this.products.find((pro) => pro.id === id);
-      console.log(id);
     },
     nextSlide() {
       if (this.slide <= this.totalSlide) {

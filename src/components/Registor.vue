@@ -97,10 +97,9 @@ export default {
   },
   validations() {
     return {
-      fullName: { required }, // Matches this.firstName
-      userName: { required, email }, // Matches this.lastName
+      fullName: { required },
+      userName: { required, email },
       passWord: { required },
-      // Matches this.contact.email
     };
   },
   methods: {

@@ -142,14 +142,14 @@
       </div>
     </div>
     <div class="comment-container" style="position: relative">
-      <div class="" style="margin-bottom: 20px"><h1>Bình luận</h1></div>
+      <div class="" style="margin-bottom: 15px"><h1>Bình luận</h1></div>
       <div class="">
         <img
           style="
             width: 30px;
             heght: 30px;
             position: absolute;
-            top: 12.8%;
+            top: 11.8%;
             left: 23.5%;
             border-radius: 50%;
           "
@@ -475,5 +475,6 @@ p {
   margin-left: 10px;
   margin-bottom: 20px;
   font-weight: 100;
+  color:#808080
 }
 </style>

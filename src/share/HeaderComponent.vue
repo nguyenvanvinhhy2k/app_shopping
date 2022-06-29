@@ -380,11 +380,12 @@ export default {
       this.$store.dispatch("getCategoryId", id);
     },
     logout() {
-      localStorage.removeItem("user");
-      localStorage.removeItem("userId");
-      localStorage.removeItem("orderID");
-      localStorage.removeItem("photoURL");
-      localStorage.removeItem("userID");
+      // localStorage.removeItem("user");
+      // localStorage.removeItem("userId");
+      // localStorage.removeItem("orderID");
+      // localStorage.removeItem("photoURL");
+      // localStorage.removeItem("userID");
+      localStorage.clear()
       this.$store.state.user = null;
       this.$router.push("/login");
     },
