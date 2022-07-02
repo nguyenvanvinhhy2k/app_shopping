@@ -167,8 +167,9 @@
                     >Tên Bạn <span>(*)</span></label
                   >
                   <input
-                    v-model="name"
+                    @input="nameUser"
                     type="text"
+                    :value="name"
                     class="app-cart-order-form-input"
                     @change="v$.name.$touch()"
                     @blur="v$.name.$touch()"
@@ -303,7 +304,7 @@ export default {
   data() {
     return {
       v$: useValidate(),
-      name: "",
+      name: JSON.parse(localStorage.getItem("user")),
       phone: "",
       address: "",
       note: "",
@@ -401,6 +402,9 @@ export default {
         this.$router.push("/login");
         window.scrollTo(0, 0);
       }
+    },
+    nameUser(e) {
+      this.name = e.target.value;
     },
   },
 };

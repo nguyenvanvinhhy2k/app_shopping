@@ -429,6 +429,7 @@ export default {
         )
         .then((response) => {
           // commit("SET_FAVOURIES", response.data);
+          localStorage.setItem("favouries", JSON.stringify(response.data));
           this.favouries = response.data;
           // this.getFavouries();
         });

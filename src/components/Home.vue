@@ -634,9 +634,9 @@ export default {
           `https://localhost:44309/api/Customer/FavoriteProduct?productId=${productID}&customeId=${this.customerId}`
         )
         .then((response) => {
-          console.log(response.data);
+             console.log(response.data);
           alert("Đã thêm vào yêu thích");
-          this.$router.go();
+          this.$router.go(); 
         });
     },
     addQuantitys() {

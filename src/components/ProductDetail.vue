@@ -60,13 +60,13 @@
                   Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(productDetail.originalPrice)
+                  }).format(productDetail.price)
                 }}</span>
                 <span class="app-product-detail-description-price-sale">{{
                   Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(productDetail.price)
+                  }).format(productDetail.originalPrice)
                 }}</span>
               </div>
               <div class="app-product-detail-description-content">
@@ -324,6 +324,7 @@
 <script>
 import { commentsColRef } from "../servies/firebase";
 import { addDoc, getDocs, query, where } from "firebase/firestore";
+// import { database, ref, push, onValue } from "../servies/firebase";
 export default {
   name: "ProductComponent",
   data() {
@@ -357,6 +358,24 @@ export default {
     },
   },
   methods: {
+    // async submitComment(e) {
+    //   if (e.keyCode === 13) {
+    //     await push(ref(database, "commentss"), this.dataComments);
+    //     this.dataComments.comment = "";
+    //   }
+    // },
+    // getComments() {
+    //   onValue(ref(database, "commentss"), (data) => {
+    //     data.forEach((comment) => {
+    //       this.comments.push(comment.val());
+    //       // const q = listComment.filter(
+    //       //   (comment) => comment.ProductID === this.id
+    //       // );
+    //       // this.comments = q;
+    //       console.log("comment", this.comments);
+    //     });
+    //   });
+    // },
     async submitComment(e) {
       if (e.keyCode === 13) {
         const addedDoc = await addDoc(commentsColRef, this.dataComments);
@@ -475,6 +494,6 @@ p {
   margin-left: 10px;
   margin-bottom: 20px;
   font-weight: 100;
-  color:#808080
+  color: #808080;
 }
 </style>
